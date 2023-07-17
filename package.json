@@ -1,0 +1,19 @@
+{
+  "name": "github-widget",
+  "version": "0.0.1",
+  "description": "This is a simple and general library of web components integrating github RESTful API.",
+  "repository": "https://github.com/neil-ji/github-widget.git",
+  "scripts": {
+    "build": "webpack",
+    "start": "webpack serve --open"
+  },
+  "author": "Neil Ji",
+  "license": "ISC",
+  "devDependencies": {
+    "html-webpack-plugin": "^5.5.3",
+    "ts-loader": "^9.4.4",
+    "webpack": "^5.88.1",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
+  }
+}

@@ -8,7 +8,7 @@ This is a simple and general library of web components integrating github RESTfu
 
 By the way, there have no direct ways to get the contribution stats, instead, it is derived by commits, pull requests and issues, hence we have no choice but calculate it by counting those metrics.
 
-So, is there really have no ways? No, We have a hack method to get it: crawling the html from personal github homepage. But this way is unstable because of we have to update our crawler every time when github updates their html structure. Sum up, I have implement this function but you CANNOT hold too much wish on its stability.
+So, is there really have no ways? No, we have a hack method to get it: crawling the html from personal github homepage. But this way is unstable because of we have to update our crawler every time when github updates their html structure. Sum up, I have implement this function but you CANNOT hold too much wish on its stability.
 
 ## Example
 

@@ -1,7 +1,11 @@
-const text = "Hello world"
+import { fetchDataForAllYears } from "./api";
+import "./components";
+import "./index.css";
 
-const div = document.createElement("div");
+const root = document.createElement("div");
 
-div.innerText = text;
+root.innerHTML = "<github-heatmap></github-heatmap>";
 
-document.body.append(div);
+root.setAttribute("style", "height: 100%; width: 100%;");
+
+document.body.appendChild(root);

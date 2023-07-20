@@ -1,4 +1,4 @@
 export default {
   HEATMAP_DEFAULT_WIDTH: '900px',
-  HEATMAP_DEFAULT_HEIGHT: '500px',
+  HEATMAP_DEFAULT_HEIGHT: '800px',
 };

@@ -1,24 +1,9 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, PropertyValueMap } from "lit";
 import { customElement, queryAsync, property } from "lit/decorators.js";
 import { styleMap } from "lit/directives/style-map.js";
 import { Constant, getCssUnit } from "../utils";
 import * as echarts from "echarts";
 
-function getVirtualData(year: string) {
-  const date = +echarts.time.parse(year + "-01-01");
-  const end = +echarts.time.parse(+year + 1 + "-01-01");
-  const dayTime = 3600 * 24 * 1000;
-  const data: [string, number][] = [];
-  for (let time = date; time < end; time += dayTime) {
-    data.push([
-      echarts.time.format(time, "{yyyy}-{MM}-{dd}", false),
-      Math.floor(Math.random() * 10000),
-    ]);
-  }
-  return data;
-}
-
-// TODO: Extract as shared util function.
 function customProperty(defaultValue: any) {
   return property({
     converter: (value) => getCssUnit(value, defaultValue),
@@ -30,6 +15,8 @@ export class GithubHeatmap extends LitElement {
   @customProperty(Constant.default.HEATMAP_DEFAULT_WIDTH) width!: string;
   @customProperty(Constant.default.HEATMAP_DEFAULT_HEIGHT) height!: string;
   @queryAsync("#root") rootContainer!: Promise<HTMLElement>;
+  @property({ type: Array }) data: Array<[string, number]>;
+  @property({ type: Array }) color?: Array<string>;
 
   constructor() {
     super();
@@ -39,49 +26,55 @@ export class GithubHeatmap extends LitElement {
     if (!this.width) {
       this.width = Constant.default.HEATMAP_DEFAULT_WIDTH;
     }
+    this.data = [];
   }
 
-  firstUpdated() {
-    this.rootContainer.then(
-      (root) => {
-        if (root) {
-          const myChart = echarts.init(root);
-          myChart.setOption({
-            title: {
-              top: 30,
-              left: "center",
-              text: "Daily Step Count",
-            },
-            tooltip: {},
-            visualMap: {
-              min: 0,
-              max: 10000,
-              type: "piecewise",
-              orient: "horizontal",
-              left: "center",
-              top: 65,
-            },
-            calendar: {
-              top: 120,
-              left: 30,
-              right: 30,
-              cellSize: ["auto", 13],
-              range: "2016",
-              itemStyle: {
-                borderWidth: 0.5,
-              },
-              yearLabel: { show: false },
-            },
-            series: {
-              type: "heatmap",
-              coordinateSystem: "calendar",
-              data: getVirtualData("2016"),
-            },
-          });
-        }
-      },
-      (error) => console.log(error)
-    );
+  protected firstUpdated(
+    _changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>
+  ): void {
+    this.rootContainer.then((root) => {
+      echarts.init(root).setOption<echarts.EChartsOption>({
+        color: this.color,
+        tooltip: {
+          valueFormatter: (value: any) => `${value} contributions`,
+          showDelay: 200,
+        },
+        visualMap: {
+          pieces: [
+            // { min: 0, max: 0 },
+            { min: 1, max: 3 },
+            { min: 3, max: 6 },
+            { min: 7, max: 20 },
+            { min: 21, max: 40 },
+            { min: 41, max: 70 },
+            { min: 71 },
+          ],
+          type: "piecewise",
+          orient: "horizontal",
+          left: "center",
+          top: 0,
+        },
+        calendar: {
+          top: 60,
+          left: 30,
+          right: 30,
+          cellSize: [16],
+          range: "2023",
+          itemStyle: {
+            borderWidth: 1,
+          },
+          splitLine: {
+            show: false,
+          },
+          yearLabel: { show: false },
+        },
+        series: {
+          type: "heatmap",
+          coordinateSystem: "calendar",
+          data: this.data,
+        },
+      });
+    });
   }
 
   render() {

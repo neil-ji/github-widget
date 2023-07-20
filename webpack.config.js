@@ -34,7 +34,7 @@ const getApiBuiltConfig = (base) => {
 };
 
 const getComponentsBuiltConfig = (base, isComponentBuilt) => {
-  const plugins = [new HtmlWebpackPlugin()];
+  const plugins = [];
 
   if (!isComponentBuilt) {
     plugins.push(
@@ -44,11 +44,13 @@ const getComponentsBuiltConfig = (base, isComponentBuilt) => {
     );
   }
 
+  plugins.push(new HtmlWebpackPlugin());
+
   return {
     ...base,
     entry: "./src/index.ts",
     output: {
-      filename: "[name].[contenthash].js",
+      filename: "[contenthash].js",
       path: path.resolve(__dirname, "dist"),
       clean: true,
     },

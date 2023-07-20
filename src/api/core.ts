@@ -31,8 +31,8 @@ export const generateJsonFile = async (json: string) => {
 
   try {
     const date = new Date();
-    const dateStr = `${date.getFullYear()}-${date.getMonth}-${date.getDate()}`;
-    filehandle = await open(`./asserts/contributions${dateStr}.json`, "a+");
+    const dateStr = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+    filehandle = await open(`./asserts/contributions${dateStr}.json`, "w");
     await filehandle.write(Buffer.from(json));
   } catch (error) {
     console.error(error);

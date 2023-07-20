@@ -6,12 +6,14 @@
   "scripts": {
     "build:component": "webpack --env component",
     "build:api": "webpack --env api",
-    "fetch:api": "node ./dist-api/run.js",
+    "fetch:api": "node ./dist-api/run.js neil-ji",
     "build:api:pipeline": "npm-run-all -s build:api fetch:api",
+    "build:single": "webpack",
     "start": "webpack serve --open",
-    "build": "npm-run-all -s build:api:pipeline webpack"
+    "build": "npm-run-all -s build:api:pipeline build:single"
   },
   "author": "Neil Ji",
+  "owner": "neil-ji",
   "license": "ISC",
   "devDependencies": {
     "@types/lodash": "^4.14.195",

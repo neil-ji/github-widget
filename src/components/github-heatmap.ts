@@ -1,4 +1,4 @@
-import { LitElement, html, PropertyValueMap } from "lit";
+import { LitElement, html } from "lit";
 import { customElement, queryAsync, property } from "lit/decorators.js";
 import { styleMap } from "lit/directives/style-map.js";
 import { Constant, getCssUnit } from "../utils";
@@ -29,9 +29,7 @@ export class GithubHeatmap extends LitElement {
     this.data = [];
   }
 
-  protected firstUpdated(
-    _changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>
-  ): void {
+  firstUpdated(): void {
     this.rootContainer.then((root) => {
       echarts.init(root).setOption<echarts.EChartsOption>({
         color: this.color,
@@ -76,6 +74,8 @@ export class GithubHeatmap extends LitElement {
       });
     });
   }
+
+  fetchData() {}
 
   render() {
     const styles = {
